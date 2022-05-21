@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <van-button type="info">主要按钮</van-button>
-    <van-stepper v-model="value" />
+    <van-search v-model="SearchVal" shape="round" placeholder="请输入搜索关键词" disabled/>
+    <p>这是p标签</p>
   </div>
 </template>
 
@@ -9,13 +9,26 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 
+// import axios from "axios";
+import request from "@/request/request"
 
 export default {
   name: 'HomeView',
   data(){
     return{
-      value:1
+      SearchVal:""
     }
+  },
+  created(){
+    request.get("/index/index")
+    .then(res=>{
+      console.log("Success");
+      console.log(res.data);
+    })
+    .catch(err=>{
+      console.log("Error");
+      console.log(err);
+    })
   },
   components: {
     
