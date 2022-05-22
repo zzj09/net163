@@ -25,7 +25,7 @@ instance.interceptors.response.use(res=>{
 
     console.log("res:",res);    // 本次服务器响应的一些信息
 
-    return res      // 返回的这个res  被then方法的res形参接收
+    return res.data      // 返回的这个res  被then方法的res形参接收
 
 },err=>{
 
