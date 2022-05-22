@@ -1,13 +1,17 @@
 <template>
   <div class="home">
     <!-- 首页搜索框 -->
-    <van-search v-model="SearchVal" shape="round" placeholder="请输入搜索关键词" disabled/>
+    <van-search v-model="SearchVal" shape="round" placeholder="请输入搜索关键词" disabled @click="$router.push('/home/searchPopup')"/>
     <!-- 轮播图 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="blue">
       <van-swipe-item v-for="item in banner" :key="item.id">
         <img :src="item.image_url" width="100%">
       </van-swipe-item>
     </van-swipe>
+
+    <transition name="van-slide-right">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -28,8 +32,8 @@ export default {
   created(){
     GetHomeList()
     .then(res=>{
-      console.log(res.data.banner);
-      this.banner = res.data.banner
+      // console.log(res.data.data.banner);
+      this.banner = res.data.data.banner
     })
     .catch(err=>{
       console.log("Error");
@@ -41,5 +45,10 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+
+
+</style>
 
 

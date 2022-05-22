@@ -2,6 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function(location) {
+  return originalPush.call(this, location).catch(err => {})
+};
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -12,16 +17,16 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    children:[
+      {
+        path: '/home/searchPopup',
+        name: 'SearchPopup',
+        component: () => import('../views/SearchPopup.vue')
+      }
+    ]
   },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  // }
+
 ]
 
 const router = new VueRouter({
