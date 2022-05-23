@@ -5,6 +5,9 @@ import store from './store'
 import "@/vantui"
 import "reset-css"
 
+Vue.filter("RMBformat",val=>{
+  return "￥ " + val + "  元"
+})
 Vue.config.productionTip = false
 
 new Vue({

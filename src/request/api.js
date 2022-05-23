@@ -14,3 +14,6 @@ export const GetSearchPopupData = () => request.get("/search/index")
 //     params:params
 // })
 export const GetSearchTipsListData = (params) => request.get("/search/helper",{params})
+
+// 获取搜索商品列表的数据
+export const GetGoodsListData = (params) => request.get("/goods/list",{params})

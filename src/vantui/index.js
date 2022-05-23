@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell } from 'vant';
+import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell,DropdownMenu, DropdownItem } from 'vant';
 
 
 Vue.use(Stepper)
@@ -11,3 +11,5 @@ Vue.use(Stepper)
 .use(Tag)
 .use(List)
 .use(Cell)
+.use(DropdownMenu)
+.use(DropdownItem)
