@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell,DropdownMenu,DropdownItem,
-    Empty,Toast,Tabbar,TabbarItem,Col,Row,Grid, GridItem } from 'vant';
+    Empty,Toast,Tabbar,TabbarItem,Col,Row,Grid, GridItem,Field,Form } from 'vant';
 
+    
+Vue.use(Form);
+Vue.use(Field);
 Vue.use(Grid);
 Vue.use(GridItem);
 Vue.use(Stepper)
