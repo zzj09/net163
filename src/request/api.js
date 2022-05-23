@@ -17,3 +17,6 @@ export const GetSearchTipsListData = (params) => request.get("/search/helper",{p
 
 // 获取搜索商品列表的数据
 export const GetGoodsListData = (params) => request.get("/goods/list",{params})
+
+// 清除历史记录
+export const ClearHistory = () => request.post("/search/clearhistory")

@@ -14,15 +14,19 @@
             v-if="blockShow==1" 
             :historyListData="historyListData" 
             :hotListData="hotListData"
+            @tagClick="tagClick"
          />
         <SearchTipsList 
             v-else-if="blockShow==2" 
             :searchTipsListData="searchTipsListData"
+            @tagClick="tagClick"
         />
         <SearchProducts
             v-else
             :searchProductsListData="searchProductsListData"
             :filterCategory="filterCategory"
+            @categoryChange="categoryChange"
+            @priceChange="priceChange"
         />
 
     </div>
@@ -48,7 +52,7 @@ export default {
             // 为1，表示展示历史记录和热门搜索
             // 为2，表示展示搜索提示的文本
             // 为3，表示展示搜索产品的内容
-            blockShow:3,
+            blockShow:1,
             // 历史记录的列表数据
             historyListData:[],
             // 热门搜索的列表数据
@@ -59,6 +63,12 @@ export default {
             searchProductsListData:[],
             // 搜索产品内容的分类数据
             filterCategory:[],
+            // 表示价格排序：（由高到低或者由低到高）
+            order:"desc",
+            // 分类id
+            categoryId:0,
+            // 默认的搜索方式  是 id 还是 price
+            sort:"id",
 
  
         }
@@ -79,23 +89,47 @@ export default {
         })
     },
      methods: {
+        tagClick(value){     // 点击标签，直接搜索
+            this.searchVal = value
+            this.onSearch(value)
+        },
+        categoryChange(value){
+            this.categoryId = value
+            // 发送搜索商品的请求
+            this.onSearch(this.searchVal)
+        },
+        priceChange(value){
+            this.order = value
+            this.sort = "price"
+            this.onSearch(this.searchVal)
+        },
         onSearch(val) {
             // 用户回车搜索的时候执行，val是用户输入的值
             this.blockShow = 3
 
-            GetGoodsListData({keyword:val})
-            .then(res=>{
+            GetGoodsListData({
+                keyword:val,
+                page:1,
+                size:10,
+                order: this.order,
+                categoryId: this.categoryId,
+                sort: this.sort
+            }).then(res=>{
                 if (res.data.errno == 0) {
-                    console.log(res.data.data);
+                    // console.log(res.data.data);
                     // this.searchProductsListData = res.data.data.goodsList
                     // this.filterCategory = res.data.data.filterCategory
                     let {filterCategory,goodsList} = res.data.data
-                    this.filterCategory = filterCategory
                     this.searchProductsListData = goodsList
+
+                    // 将搜索产品内容的分类数据中的 name和id字段 改为 text和value字段
+                    let newArr = JSON.parse(JSON.stringify(filterCategory).replace(/name/g, 'text').replace(/id/g, 'value'))
+
+                    this.filterCategory = newArr
                 }
             })
             .catch(err=>{
-
+                console.log(err);
             })
         },
         onCancel() {

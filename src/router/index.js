@@ -16,8 +16,11 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'home',
+    name: 'Home',
     component: HomeView,
+    meta:{
+      activeNum:0
+    },
     children:[
       {
         path: '/home/searchPopup',
@@ -25,6 +28,38 @@ const routes = [
         component: () => import('../views/SearchPopup.vue')
       }
     ]
+  },
+  {
+    path: '/topic',
+    name: 'Topic',
+    meta:{
+      activeNum:1
+    },
+    component: () => import('../views/Topic.vue')
+  },
+  {
+    path: '/category',
+    name: 'Category',
+    meta:{
+      activeNum:2
+    },
+    component: () => import('../views/Category.vue')
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    meta:{
+      activeNum:3
+    },
+    component: () => import('../views/Cart.vue')
+  },
+  {
+    path: '/user',
+    name: 'User',
+    meta:{
+      activeNum:4
+    },
+    component: () => import('../views/User.vue')
   },
 
 ]

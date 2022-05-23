@@ -4,7 +4,7 @@
             :finished="finished"
             finished-text="没有更多了"
         >
-            <van-cell v-for="(item,index) in searchTipsListData" :key="index" :title="item" />
+            <van-cell @click="tagClick(item)" v-for="(item,index) in searchTipsListData" :key="index" :title="item" />
         </van-list>
     </div>
 </template>
@@ -17,7 +17,12 @@ export default {
     
         }
     },
-    props:["searchTipsListData"]
+    props:["searchTipsListData"],
+    methods:{
+        tagClick(val){
+            this.$emit("tagClick",val)
+        },
+    }
 }
 </script>
  

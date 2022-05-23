@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="his-hot">
+        <div class="his-hot" v-show="isShowHistory">
             <div class="hd">
                 <h4>历史记录</h4>
-                <van-icon name="delete-o" />
+                <van-icon name="delete-o" @click="clearHistory" />
             </div>
             <div class="bd">
-                <van-tag plain type="default" v-for="(item,index) in historyListData" :key="index">{{item}}</van-tag>
+                <van-tag @click="tagClick(item)" plain type="default" v-for="(item,index) in historyListData" :key="index">{{item}}</van-tag>
             </div>
         </div>
 
@@ -15,21 +15,45 @@
                 <h4>热门搜索</h4>
             </div>
             <div class="bd">
-                <van-tag plain type="default" v-for="(item,index) in hotListData" :key="index" :class="item.is_hot?'red':''">{{item.keyword}}</van-tag>
+                <van-tag @click="tagClick(item.keyword)" plain type="default" v-for="(item,index) in hotListData" :key="index" :class="item.is_hot?'red':''">{{item.keyword}}</van-tag>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
+import { ClearHistory } from "@/request/api";
 export default {
     data () {
         return {
-
+            isShowHistory:true
  
         }
     },
-    props:["historyListData","hotListData"]
+    props:["historyListData","hotListData"],
+    methods:{
+        tagClick(val){
+            this.$emit("tagClick",val)
+        },
+        clearHistory(){         // 清空历史记录
+
+            ClearHistory().then(res=>{
+                if(res.data.errno == 0){
+                    setTimeout(()=>{
+                        // 隐藏历史记录的盒子
+                        this.isShowHistory = false
+                    },1000)
+                    // 提示语
+                    this.$toast.success('删除成功');
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
+    },
+    
 }
 </script>
  
