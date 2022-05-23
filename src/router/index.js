@@ -70,4 +70,27 @@ const router = new VueRouter({
   routes
 })
 
+// 路由拦截     (前置) 路由守卫
+// 每次进入路由之前，执行这个函数
+router.beforeEach((to, from, next)=>{
+  // 要去往的路由对象
+  // console.log("to:",to);
+  // 从哪里出发的路由对象
+  // console.log("from:",from);
+  let token = localStorage.getItem("token");
+  if(to.path=="/cart"){     // 表示去往购物车页面
+    if(token){
+      next()
+    }else{
+      // 表示没有登录
+      Vue.prototype.$toast("请先登录")
+      setTimeout(()=>{
+        next("/user");    // 跳转到user
+      },1000)
+    }
+  }
+
+  next();   // 可以顺利通过要去的路由， 如果不写next(), 就不能访问到相应的路由
+})
+
 export default router

@@ -1,7 +1,9 @@
 import Vue from 'vue';
-import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell,DropdownMenu, DropdownItem,Empty,Toast,Tabbar,TabbarItem } from 'vant';
+import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell,DropdownMenu,DropdownItem,
+    Empty,Toast,Tabbar,TabbarItem,Col,Row,Grid, GridItem } from 'vant';
 
-
+Vue.use(Grid);
+Vue.use(GridItem);
 Vue.use(Stepper)
 .use(Button)
 .use(Search)
@@ -17,3 +19,5 @@ Vue.use(Stepper)
 .use(Toast)
 .use(Tabbar)
 .use(TabbarItem)
+.use(Col)
+.use(Row)
