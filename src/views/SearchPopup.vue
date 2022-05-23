@@ -6,8 +6,9 @@
             :placeholder="placeholderVal"
             @search="onSearch"
             @cancel="onCancel"
+            @input="onInput"
         />
-
+<!--  @input="onInput"  表示输入框内容发生变化的时候触发onInput这个事件函数 -->
 
         <HistoryHot
             v-if="blockShow==1" 
@@ -16,8 +17,9 @@
          />
         <SearchTipsList 
             v-else-if="blockShow==2" 
+            :searchTipsListData="searchTipsListData"
         />
-        <!-- <comp3 v-else></comp3> --> 
+
     </div>
 
     
@@ -25,7 +27,7 @@
 
 <script>
 
-import {GetSearchPopupData} from "@/request/api"
+import {GetSearchPopupData,GetSearchTipsListData} from "@/request/api"
 import HistoryHot from "@/components/HistoryHot.vue"
 import SearchTipsList from "@/components/SearchTipsList.vue"
 // import HistoryHot from "@/components/HistoryHot.vue"
@@ -46,6 +48,8 @@ export default {
             historyListData:[],
             // 热门搜索的列表数据
             hotListData:[],
+            // 搜索实时提示的列表数据
+            searchTipsListData:[],
  
         }
     },
@@ -55,7 +59,7 @@ export default {
         GetSearchPopupData()
         .then(res=>{
             if(res.data.errno == 0){
-                console.log("res.data:",res.data);
+                // console.log("res.data:",res.data);
 
                 this.placeholderVal = res.data.data.defaultKeyword.keyword
                 this.historyListData = res.data.data.historyKeywordList
@@ -74,6 +78,19 @@ export default {
         onCancel() {
             this.$router.go(-1)         // 返回上一级
         },
+        onInput(val){
+
+            // 发送请求，获取实时搜索的文本提示的数据列表
+            GetSearchTipsListData({keyword:val})
+            .then(res=>{
+                if (res.data.errno == 0) {
+                    this.searchTipsListData = res.data.data
+                }
+            })
+            .catch(err=>{
+
+            })
+        }
     },
     components:{
         HistoryHot,

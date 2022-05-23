@@ -45,8 +45,6 @@ export default {
             font-size: .21rem;
             margin-bottom: .08rem;
 
-
-
             h4{
                 font-size: .20rem;
             }
