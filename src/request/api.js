@@ -20,3 +20,7 @@ export const GetGoodsListData = (params) => request.get("/goods/list",{params})
 
 // 清除历史记录
 export const ClearHistory = () => request.post("/search/clearhistory")
+
+// 登录请求
+export const GoLogin = (params) => request.post("/auth/loginByWeb",params)
+

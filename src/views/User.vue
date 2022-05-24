@@ -55,6 +55,8 @@
 </template>
 
 <script>
+
+import { GoLogin } from "@/request/api";
 export default {
     data() {
         return {
@@ -67,6 +69,29 @@ export default {
     methods: {
         onSubmit(values) {
             console.log('submit', values);
+            let username = values["用户名"]
+            let pwd = values["密码"]
+
+            GoLogin({username,pwd})
+            .then(res=>{
+                if(res.data.errno == 0){
+                    console.log(res.data);
+                    // 登录成功     登录的业务逻辑
+                    // 1、提示框提示登录成功
+                    // 2、把token保存到本地存储
+                    // 3、关闭模态窗口
+                    // 4、把拿到的userInfo用户信息，填写到页面上
+
+
+
+
+
+                    this.isShowModal = false
+                }
+            })
+            .catch(err=>{
+
+            })
         },
     },
 };

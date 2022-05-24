@@ -5,6 +5,8 @@ const instance = axios.create({
     baseURL:"http://kumanxuan1.f3322.net:8001",
     timeout:5000        // 超过5s 则超时
 });
+// http://kumanxuan1.f3322.net:8001
+// http://520it.com:8001
 
 // 拦截器
 instance.interceptors.request.use(config=>{
