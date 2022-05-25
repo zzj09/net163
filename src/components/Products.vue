@@ -3,7 +3,7 @@
         <li v-for="item in searchProductsListData" :key="item.id" @click="toProductDetail(item.id)">
             <img :src="item.list_pic_url" style="display:block;" width="100%" alt="" />
             <div class="van-ellipsis">{{item.name}}</div>
-            <div class="price">{{item.retail_price.toFixed(2) | RMBformat}}</div>
+            <div class="price">{{item.retail_price | RMBformat}}</div>
         </li>
     </ul>
 </template>

@@ -6,7 +6,7 @@ import "@/vantui"
 import "reset-css"
 
 Vue.filter("RMBformat",val=>{
-  return "￥ " + val + "  元"
+  return "￥ " + Number(val).toFixed(2) + "  元"
 })
 Vue.config.productionTip = false
 
