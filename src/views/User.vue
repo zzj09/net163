@@ -1,12 +1,12 @@
 <template>
     <div>
-        <van-row @click="isShowModal = !isShowModal">
+        <van-row @click="openModal">
             <van-col span="6">
                 <img :src="avatarSrc" alt />
             </van-col>
-            <van-col span="10">用户登录</van-col>
-            <van-col span="8">
-                <van-icon name="arrow" />
+            <van-col span="15">{{nickname}}</van-col>
+            <van-col span="3">
+                <van-icon name="arrow" @click.stop="logout" />
             </van-col>
         </van-row>
         <van-grid :column-num="3" square>
@@ -25,7 +25,7 @@
         <!-- 登录的模态窗口 -->
         <transition name="van-fade">
             <div class="login-modal" v-show="isShowModal">
-                <div class="close-modal"  @click="isShowModal = !isShowModal"></div>
+                <div class="close-modal"  @click="isShowModal=!isShowModal"></div>
                 <van-form @submit="onSubmit" class="login-form">
                     <van-field
                     v-model="username"
@@ -64,7 +64,17 @@ export default {
             username: '',
             password: '',
             isShowModal:false,
+            nickname:"用户登录",
         };
+    },
+    created(){
+        // 组件刚创建的时候需要判断用户有没有登录，获取localstorage有没有token
+        let token = localStorage.getItem("token")
+        if(token){
+            let userInfo = JSON.parse(localStorage.getItem("userInfo"))
+            this.nickname = userInfo.nickname
+            this.avatarSrc = userInfo.avatar
+        }
     },
     methods: {
         onSubmit(values) {
@@ -82,17 +92,43 @@ export default {
                     // 3、关闭模态窗口
                     // 4、把拿到的userInfo用户信息，填写到页面上
 
+                    this.$toast.success('登录成功');
+                    localStorage.setItem("token",res.data.data.token)
+                    localStorage.setItem("userInfo",JSON.stringify(res.data.data.userInfo))
 
+                    setTimeout(()=>{
+                        this.isShowModal = !this.isShowModal
+                        this.username = ""
+                        this.password = ""
+                        this.nickname = res.data.data.userInfo.nickname
+                        this.avatarSrc = res.data.data.userInfo.avatar
+                    },500)
 
-
-
-                    this.isShowModal = false
+                    
+                    
                 }
             })
             .catch(err=>{
 
             })
         },
+        openModal(){
+            let token = localStorage.getItem("token")
+            if(token){
+                return 
+            }else{
+                this.isShowModal = !this.isShowModal
+            }
+            
+        },
+        logout(){
+            this.$toast.success("注销成功")
+            localStorage.removeItem("token")
+            localStorage.removeItem("userInfo")
+            this.avatarSrc = require("../assets/avatar.png")
+            this.nickname = "用户登录"
+            
+        }
     },
 };
 </script>

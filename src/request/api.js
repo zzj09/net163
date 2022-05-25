@@ -24,3 +24,7 @@ export const ClearHistory = () => request.post("/search/clearhistory")
 // 登录请求
 export const GoLogin = (params) => request.post("/auth/loginByWeb",params)
 
+// 获取商品的详情信息
+export const GetGoodsDetailData = (params) => request.get("/goods/detail",{params})
+
+

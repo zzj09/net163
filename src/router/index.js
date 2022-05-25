@@ -19,7 +19,8 @@ const routes = [
     name: 'Home',
     component: HomeView,
     meta:{
-      activeNum:0
+      activeNum:0,
+      isShowTabbar:true,
     },
     children:[
       {
@@ -33,7 +34,8 @@ const routes = [
     path: '/topic',
     name: 'Topic',
     meta:{
-      activeNum:1
+      activeNum:1,
+      isShowTabbar:true,
     },
     component: () => import('../views/Topic.vue')
   },
@@ -41,7 +43,8 @@ const routes = [
     path: '/category',
     name: 'Category',
     meta:{
-      activeNum:2
+      activeNum:2,
+      isShowTabbar:true,
     },
     component: () => import('../views/Category.vue')
   },
@@ -49,7 +52,8 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     meta:{
-      activeNum:3
+      activeNum:3,
+      isShowTabbar:true,
     },
     component: () => import('../views/Cart.vue')
   },
@@ -57,9 +61,15 @@ const routes = [
     path: '/user',
     name: 'User',
     meta:{
-      activeNum:4
+      activeNum:4,
+      isShowTabbar:true,
     },
     component: () => import('../views/User.vue')
+  },
+  {
+    path: '/productDetail',
+    name: 'ProductDetail',
+    component: () => import('../views/ProductDetail.vue')
   },
 
 ]
