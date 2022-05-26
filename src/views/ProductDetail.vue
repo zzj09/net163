@@ -39,18 +39,19 @@
         </div>
         <Products :goodsList="goodsList"/>
         <van-sku
+            ref="sku"
             v-model="isSkuShow"
             :sku="sku"
             :goods="goods"
             :hide-stock="sku.hide_stock"
         />
-        <AppGoodActive style="padding-top: .5rem"/>
+        <AppGoodActive style="padding-top: .5rem" @goToCart="addToCart" :goodsCount="goodsCount"/>
     </div>
 </template>
 
 <script>
 
-import { GetGoodsDetailData,GetGoodsRelatedData } from "@/request/api";
+import { GetGoodsDetailData,GetGoodsRelatedData,GetGoodsCount,AddCart } from "@/request/api";
 import Tips from "@/components/Tips.vue"
 import AppGoodActive from "@/components/AppGoodActive.vue"
 import Products from "@/components/Products.vue"
@@ -80,9 +81,11 @@ export default {
             issue:[],
             // 大家都在买的商品
             goodsList:[],
+            // 购物车产品数量
+            goodsCount:0,
+            // productList数据
+            productList:[],
 
-            
- 
         }
     },
     components:{
@@ -94,9 +97,9 @@ export default {
         // 发送请求，请求这个商品的详情数据
         GetGoodsDetailData({id:this.$route.query.id})
         .then(res=>{
-            console.log(res.data);
+            // console.log(res.data);
             if(res.data.errno == 0){
-                let {gallery,info,attribute,issue} = res.data.data
+                let {gallery,info,attribute,issue,productList} = res.data.data
                 this.gallery = gallery
                 this.info = info
                 this.attribute = attribute
@@ -107,6 +110,8 @@ export default {
                 this.goods.picture = info.list_pic_url
                 this.sku.price = info.retail_price
                 this.sku.stock_num = info.goods_number
+                // productList数据
+                this.productList = productList
             }
         })
         .catch(err=>{
@@ -124,6 +129,44 @@ export default {
         .catch(err=>{
             console.log(err);
         })
+
+        // 发送请求，获取购物车数量
+        GetGoodsCount()
+        .then(res=>{
+            if(res.data.errno == 0){
+                // console.log(res.data);
+                this.goodsCount = res.data.data.cartTotal.goodsCount
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    },
+    methods:{
+        addToCart(){
+            // 点击购物车按钮
+            if(!this.isSkuShow){
+                this.isSkuShow = true
+            }else{
+                // 发起 加入购物车 请求
+                AddCart({
+                    goodsId: this.$route.query.id,
+                    productId: this.productList[0].id,
+                    number: this.$refs.sku.getSkuData().selectedNum
+                })
+                .then(res=>{
+                    if(res.data.errno == 0){
+                        console.log(res.data);
+                        this.goodsCount = res.data.data.cartTotal.goodsCount
+                        this.$toast.success("加入购物车成功")
+                    }
+                    
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            }
+        }
     },
 }
 </script>

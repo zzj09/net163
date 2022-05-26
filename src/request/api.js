@@ -30,4 +30,8 @@ export const GetGoodsDetailData = (params) => request.get("/goods/detail",{param
 // 获取商品的相关产品
 export const GetGoodsRelatedData = (params) => request.get("/goods/related",{params})
 
+// 获取购物车产品数量
+export const GetGoodsCount = () => request.get("/cart/goodscount")
 
+// 加入购物车 
+export const AddCart = (params) => request.post("/cart/add",params)

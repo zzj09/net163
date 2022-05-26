@@ -13,6 +13,11 @@ instance.interceptors.request.use(config=>{
     // 什么时候执行这个函数？       发请求之前执行这个函数
     // 可以判断用户有没有登录， 如果没有登录，就直接return,   请求就不会出去
     // console.log("config:",config);    // 本次请求的一些信息
+    let token = localStorage.getItem("token");
+    if(token){
+        // 携带登录凭证发起请求
+        config.headers["X-Nideshop-Token"] = token;
+    }
 
     return config
 
