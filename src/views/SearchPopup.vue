@@ -23,7 +23,7 @@
         />
         <SearchProducts
             v-else
-            :searchProductsListData="searchProductsListData"
+            :goodsList="goodsList"
             :filterCategory="filterCategory"
             @categoryChange="categoryChange"
             @priceChange="priceChange"
@@ -60,7 +60,7 @@ export default {
             // 搜索实时提示的列表数据
             searchTipsListData:[],
             // 搜索产品内容的列表数据
-            searchProductsListData:[],
+            goodsList:[],
             // 搜索产品内容的分类数据
             filterCategory:[],
             // 表示价格排序：（由高到低或者由低到高）
@@ -120,7 +120,7 @@ export default {
                     // this.searchProductsListData = res.data.data.goodsList
                     // this.filterCategory = res.data.data.filterCategory
                     let {filterCategory,goodsList} = res.data.data
-                    this.searchProductsListData = goodsList
+                    this.goodsList = goodsList
 
                     // 将搜索产品内容的分类数据中的 name和id字段 改为 text和value字段
                     let newArr = JSON.parse(JSON.stringify(filterCategory).replace(/name/g, 'text').replace(/id/g, 'value'))

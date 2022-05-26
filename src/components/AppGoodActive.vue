@@ -8,8 +8,8 @@
                 @click="isCollected=!isCollected"
             />
             <van-goods-action-icon icon="cart-o" text="购物车" badge="5" color="#333"/>
-            <van-goods-action-button type="warning" text="加入购物车" />
             <van-goods-action-button type="danger" text="立即购买" />
+            <van-goods-action-button type="warning" text="加入购物车" />
         </van-goods-action>
     </div>
 </template>
@@ -27,5 +27,7 @@ export default {
 </script>
  
 <style lang = "less" scoped>
-    
+    .van-goods-action{
+        z-index: 99999;
+    }
 </style>

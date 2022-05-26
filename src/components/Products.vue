@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <li v-for="item in searchProductsListData" :key="item.id" @click="toProductDetail(item.id)">
+        <li v-for="item in goodsList" :key="item.id" @click="toProductDetail(item.id)">
             <img :src="item.list_pic_url" style="display:block;" width="100%" alt="" />
             <div class="van-ellipsis">{{item.name}}</div>
             <div class="price">{{item.retail_price | RMBformat}}</div>
@@ -16,10 +16,15 @@ export default {
  
         }
     },
-    props:["searchProductsListData"],
+    props:["goodsList"],
     methods:{
         toProductDetail(id){
-            this.$router.push("/productDetail?id="+id)
+            this.$router.push("/productDetail?id="+id);
+            setTimeout(()=>{
+                // 刷新页面
+                this.$router.go(0);
+            },10)
+            
         }
     },
 }

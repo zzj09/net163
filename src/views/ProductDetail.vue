@@ -11,7 +11,7 @@
             <div class="goods_brief">{{info.goods_brief}}</div>
             <div class="retail_price">{{info.retail_price | RMBformat}}</div>
         </div>
-        <van-cell title="展示弹出层" is-link />
+        <van-cell title="展示弹出层" is-link @click="isSkuShow =! isSkuShow"/>
         <div class="attribute">
             <h3>商品参数</h3>
             <ul>
@@ -21,22 +21,53 @@
                 </li>
             </ul>
         </div>
-        <div class="goods_desc_div">
-            <div class="goods_desc" v-html="goods_desc"></div>
-        </div>
         
-        <AppGoodActive />
+        <div class="goods_desc" v-html="goods_desc"></div>
+
+        <div class="title0">
+            <span>常见问题</span>
+        </div>
+        <ul class="issue">
+            <li v-for="item in issue" :key="item.id">
+                <h3>{{item.question}}</h3>
+                <p>{{item.answer}}</p>
+            </li>
+        </ul>
+        
+        <div class="title0">
+            <span>大家都在看</span>
+        </div>
+        <Products :goodsList="goodsList"/>
+        <van-sku
+            v-model="isSkuShow"
+            :sku="sku"
+            :goods="goods"
+            :hide-stock="sku.hide_stock"
+        />
+        <AppGoodActive style="padding-top: .5rem"/>
     </div>
 </template>
 
 <script>
 
-import { GetGoodsDetailData } from "@/request/api";
+import { GetGoodsDetailData,GetGoodsRelatedData } from "@/request/api";
 import Tips from "@/components/Tips.vue"
 import AppGoodActive from "@/components/AppGoodActive.vue"
+import Products from "@/components/Products.vue"
 export default {
     data () {
         return {
+            isSkuShow: false,
+            sku: {
+                tree:[],
+                hide_stock:false,       //要不要显示库存
+                price: '0' ,             // 默认价格（单位元）
+                stock_num: 0,         // 商品总库存
+            },
+            goods: {
+                picture:"",
+            },
+// ----------------------------------------
             // 轮播图数据
             gallery:[],
             // 商品信息
@@ -44,13 +75,20 @@ export default {
             // 商品参数
             attribute:[],
             // 商品信息（大量图片信息）
-            goods_desc:""
+            goods_desc:"",
+            // 常见问题
+            issue:[],
+            // 大家都在买的商品
+            goodsList:[],
+
+            
  
         }
     },
     components:{
         Tips,
         AppGoodActive,
+        Products,
     },
     created(){
         // 发送请求，请求这个商品的详情数据
@@ -58,11 +96,29 @@ export default {
         .then(res=>{
             console.log(res.data);
             if(res.data.errno == 0){
-                let {gallery,info,attribute} = res.data.data
+                let {gallery,info,attribute,issue} = res.data.data
                 this.gallery = gallery
                 this.info = info
                 this.attribute = attribute
                 this.goods_desc = info.goods_desc
+                this.issue = issue
+
+                // sku数据
+                this.goods.picture = info.list_pic_url
+                this.sku.price = info.retail_price
+                this.sku.stock_num = info.goods_number
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+
+        // 发送请求，获取相关产品数据
+        GetGoodsRelatedData({id:this.$route.query.id})
+        .then(res=>{
+            // console.log("GetGoodsRelatedData:",res.data);
+            if(res.data.errno == 0){
+                this.goodsList = res.data.data.goodsList
             }
         })
         .catch(err=>{
@@ -120,8 +176,61 @@ export default {
             width: 100%;
         }
     }
-    .goods_desc_div{
-        padding-bottom: .5rem;
-        
+    .title0 {
+        width: 100%;
+        background: #fff;
+        height: 0.5rem;
+        position: relative;
+        &::before {
+            content: "";
+            width: 50%;
+            height: 2px;
+            background: #ccc;
+            position: absolute;
+            top: 50%;
+            margin-top: -1px;
+            left: 50%;
+            margin-left: -25%;
+        }
+        span {
+            width: 30%;
+            position: relative;
+            background: #fff;
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+            height: 0.5rem;
+            line-height: 0.5rem;
+        }
     }
+    .issue {
+        padding: 0 4%;
+        background: #fff;
+        li {
+            h3 {
+                height: 0.3rem;
+                line-height: 0.3rem;
+                padding-left: 0.2rem;
+                position: relative;
+                font-weight: normal;
+                &::before {
+                    content: "";
+                    width: 4px;
+                    height: 4px;
+                    background: darkred;
+                    display: inline-block;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    margin-top: -2px;
+                }
+            }
+            p {
+                font-size: 0.12rem;
+                line-height: 0.2rem;
+                padding-left: 0.2rem;
+            }
+        }
+    }
+    
 </style>

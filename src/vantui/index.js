@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell,DropdownMenu,DropdownItem,
-    Empty,Toast,Tabbar,TabbarItem,Col,Row,Grid, GridItem,Field,Form, CellGroup,GoodsAction, GoodsActionIcon, GoodsActionButton } from 'vant';
+    Empty,Toast,Tabbar,TabbarItem,Col,Row,Grid, GridItem,Field,Form, CellGroup,GoodsAction, GoodsActionIcon, GoodsActionButton,
+    Sku } from 'vant';
 
 
 Vue.use(GoodsAction);
@@ -28,3 +29,4 @@ Vue.use(Stepper)
 .use(TabbarItem)
 .use(Col)
 .use(Row)
+.use(Sku)

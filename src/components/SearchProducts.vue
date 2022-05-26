@@ -7,15 +7,15 @@
         </van-dropdown-menu>
         
         <van-empty 
-            v-if="searchProductsListData.length == 0"
+            v-if="goodsList.length == 0"
             image="search" 
             description="没有您搜索的商品" 
         />
         <Products 
             v-else
-            v-for="(item,index) in searchProductsListData" 
+            v-for="(item,index) in goodsList" 
             :key="item.id"
-            :searchProductsListData="searchProductsListData"
+            :goodsList="goodsList"
         />
         
         
@@ -37,7 +37,7 @@ export default {
         
         }
     },
-    props:["searchProductsListData","filterCategory"],
+    props:["goodsList","filterCategory"],
     beforeUpdate(){
         // 界面更新前（用户按回车后）， 遍历filterCategory数组，看看哪一项的checked为true
         // 遍历的时候 遇到checked为true时，就把this.categoryVal 改成它的value值，那这一项就被勾上
