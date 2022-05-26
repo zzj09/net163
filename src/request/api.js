@@ -35,3 +35,10 @@ export const GetGoodsCount = () => request.get("/cart/goodscount")
 
 // 加入购物车 
 export const AddCart = (params) => request.post("/cart/add",params)
+
+// 获取购物车数据             
+export const GetCartListData = () => request.get("/cart/index")
+
+// 点击切换商品选中状态（含全选）
+export const check = (params) => request.post("/baseurl/cart/checked",params)
+

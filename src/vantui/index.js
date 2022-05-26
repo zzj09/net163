@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import { Button,Stepper,Search,Swipe, SwipeItem,Icon,Tag,List,Cell,DropdownMenu,DropdownItem,
     Empty,Toast,Tabbar,TabbarItem,Col,Row,Grid, GridItem,Field,Form, CellGroup,GoodsAction, GoodsActionIcon, GoodsActionButton,
-    Sku } from 'vant';
+    Sku,Checkbox, CheckboxGroup,Card,SubmitBar } from 'vant';
+    
 
-
+Vue.use(SubmitBar);
+Vue.use(Card);    
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
 Vue.use(GoodsAction);
 Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
