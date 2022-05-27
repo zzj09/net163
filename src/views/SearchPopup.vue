@@ -8,7 +8,7 @@
             @cancel="onCancel"
             @input="onInput"
         />
-<!--  @input="onInput"  表示输入框内容发生变化的时候触发onInput这个事件函数 -->
+    <!--  @input="onInput"  表示输入框内容发生变化的时候触发onInput这个事件函数 -->
 
         <HistoryHot
             v-if="blockShow==1" 
@@ -117,8 +117,6 @@ export default {
             }).then(res=>{
                 if (res.data.errno == 0) {
                     // console.log(res.data.data);
-                    // this.searchProductsListData = res.data.data.goodsList
-                    // this.filterCategory = res.data.data.filterCategory
                     let {filterCategory,goodsList} = res.data.data
                     this.goodsList = goodsList
 
@@ -134,6 +132,7 @@ export default {
         },
         onCancel() {
             this.$router.go(-1)         // 返回上一级
+            this.$store.commit("changeIsShowPopupShadow",false)
         },
         onInput(val){
             this.blockShow = 2
@@ -143,9 +142,6 @@ export default {
                 if (res.data.errno == 0) {
                     this.searchTipsListData = res.data.data
                 }
-            })
-            .catch(err=>{
-
             })
         }
     },
@@ -158,11 +154,12 @@ export default {
 </script>
  
 <style lang = "less" scoped>
-    .search-popup{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        background-color: #efefef
-    }
+.search-popup{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #efefef;
+    z-index: 99;
+}
 </style>
