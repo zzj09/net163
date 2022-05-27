@@ -78,10 +78,10 @@ export default {
         .then(res=>{
             if(res.data.errno == 0){
                 // console.log("res.data:",res.data);
-
-                this.placeholderVal = res.data.data.defaultKeyword.keyword
-                this.historyListData = res.data.data.historyKeywordList
-                this.hotListData = res.data.data.hotKeywordList
+                let {defaultKeyword,historyKeywordList,hotKeywordList} = res.data.data
+                this.placeholderVal = defaultKeyword.keyword
+                this.historyListData = historyKeywordList
+                this.hotListData = hotKeywordList
             }
         })
         .catch(err=>{
@@ -133,6 +133,7 @@ export default {
         onCancel() {
             this.$router.go(-1)         // 返回上一级
             this.$store.commit("changeIsShowPopupShadow",false)
+            this.$store.commit("changeIsShowHomeProduct",true)
         },
         onInput(val){
             this.blockShow = 2

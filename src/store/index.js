@@ -5,13 +5,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isShowPopupShadow:false
+    isShowPopupShadow:false,
+    isShowHomeProduct:true,
   },
   getters: {
   },
   mutations: {
     changeIsShowPopupShadow(state,payload){
       state.isShowPopupShadow = payload
+    },
+    changeIsShowHomeProduct(state,payload){
+      state.isShowHomeProduct = payload
     }
   },
   actions: {

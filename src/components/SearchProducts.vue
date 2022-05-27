@@ -13,8 +13,6 @@
         />
         <Products 
             v-else
-            v-for="(item,index) in goodsList" 
-            :key="item.id"
             :goodsList="goodsList"
         />
         

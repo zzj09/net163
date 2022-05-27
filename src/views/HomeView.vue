@@ -8,11 +8,13 @@
         <img :src="item.image_url" width="100%">
       </van-swipe-item>
     </van-swipe>
+    
 
-    <transition name="van-fade">
+    <!-- <transition name="van-fade">
       <div class="popup-shadow" v-show="$store.state.isShowPopupShadow"></div>
-    </transition>
-    <transition name="van-slide-right">
+    </transition> -->
+    <Products v-if="$store.state.isShowHomeProduct" :goodsList="goodsList"/>
+    <transition v-else name="van-slide-right">
       <router-view />
     </transition>
   </div>
@@ -22,7 +24,8 @@
 
 // import axios from "axios";
 // import request from "@/request/request"
-import {GetHomeList} from "@/request/api"
+import {GetHomeList,GetGoodsListData} from "@/request/api"
+import Products from "@/components/Products.vue"
 
 export default {
   name: 'HomeView',
@@ -30,17 +33,29 @@ export default {
     return{
       SearchVal:"",   // 搜索框的值
       banner:[],    // 轮播图图片
+      goodsList:[],     //商品列表
     }
   },
   created(){
     GetHomeList()
     .then(res=>{
-      // console.log(res.data.data.banner);
+      // console.log(res.data.data);
       this.banner = res.data.data.banner
     })
     .catch(err=>{
       console.log("Error");
       console.log(err);
+    })
+
+    GetGoodsListData({
+      keyword:""
+    })
+    .then(res=>{
+      if(res.data.errno == 0){
+        console.log(res.data);
+        this.goodsList = res.data.data.goodsList
+        console.log(this.goodsList);
+      }
     })
   },
   methods:{
@@ -48,8 +63,12 @@ export default {
       this.$router.push('/home/searchPopup')
       // 修改isShowPopupShadow的值
       this.$store.commit("changeIsShowPopupShadow",true)
+      this.$store.commit("changeIsShowHomeProduct",false)
     }
-  }
+  },
+  components:{
+    Products,
+  },
 }
 </script>
 
