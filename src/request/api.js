@@ -40,5 +40,11 @@ export const AddCart = (params) => request.post("/cart/add",params)
 export const GetCartListData = () => request.get("/cart/index")
 
 // 点击切换商品选中状态（含全选）
-export const check = (params) => request.post("/baseurl/cart/checked",params)
+export const ChangeGoodChecked = (params) => request.post("/cart/checked",params)
+
+// 商品步进器修改    
+export const ChangeGoodStepperData = (params) => request.post("/cart/update",params)
+
+// 删除购物车商品
+export const DeleteGood = (params) => request.post("/cart/delete",params)
 
